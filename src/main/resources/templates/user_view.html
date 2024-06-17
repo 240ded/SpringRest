@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>Information about current logged user:</h2>
+<h3>Username:</h3>
+<span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+
+<br><br>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+</body>
+</html>
