@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!--HEAD MENU-->
+<div th:include="header.html"></div>
+
+
+<div class="container m-0" style="float: left">
+
+    <div class="row">
+
+        <div class="col-2">
+            <!--LEFT MENU-->
+            <div th:include="leftadminmenu.html"></div>
+        </div>
+
+        <div class="col">
+
+            <div class="row">
+                <h2 style="margin-top: 10px">Admin panel</h2>
+            </div>
+
+            <div class="row">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Users table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">New User</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="card-footer">
+                    <label style="font-size: large">Add new user</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card">
+                    <form action="#" th:action="@{/admin/saveUser}" method="post" th:object="${user}">
+
+                        <input type="hidden" th:field="*{id}"/>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;" >First name</label>
+                            </div>
+                            <input type="text" class="form-control" th:field="*{firstName}" placeholder="First name">
+                            <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Firstname Error</div>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;" >Last name</label>
+                            </div>
+                            <input type="text" class="form-control" th:field="*{lastName}" placeholder="Last name">
+                            <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Lastname Error</div>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;">Age</label>
+                            </div>
+                            <input type="number" class="form-control" th:field="*{age}" placeholder="Age">
+                            <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;">Email</label>
+                            </div>
+                            <input type="text" class="form-control" th:field="*{username}" placeholder="Email">
+                            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;">Password</label>
+                            </div>
+                            <input type="password" class="form-control" th:field="*{password}" placeholder="Password">
+                            <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <div style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                <label class="form-label" style="font-weight: bold;">Role</label>
+                            </div>
+                            <label>
+                                <select name="selectRole" class="form-select" size="2" style="width: 201px">
+                                    <option value="1">USER</option>
+                                    <option value="2">ADMIN</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                            <button type="submit" class="btn btn-success">Add new user</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+-->
+</body>
+</html>

@@ -23,6 +23,7 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <div class="btn-group-vertical" style="margin-top: 20px; width: 190px; float: left;">
+                        <a href="/admin" class="btn btn-nonactiv" style="text-align: left">Admin</a>
                         <a href="#" class="btn btn-primary active" aria-current="page" style="text-align: left">User</a>
                     </div>
                 </li>
@@ -45,24 +46,24 @@
                 <div class="card">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">First name</th>
+                                <th scope="col">Last name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td th:text="${#authentication.getPrincipal().getId()}"/>
-                            <td th:text="${#authentication.getPrincipal().getFirstName()}"/>
-                            <td th:text="${#authentication.getPrincipal().getLastName()}"/>
-                            <td th:text="${#authentication.getPrincipal().getAge()}"/>
-                            <td th:text="${#authentication.getPrincipal().getUsername()}"/>
-                            <td th:each="role : ${#authentication.getPrincipal().getRoles()}" th:text="${role}" style="padding-right: 0px; padding-left: 0px; margin: -100px"/>
-                        </tr>
+                            <tr>
+                                <td th:text="${#authentication.getPrincipal().getId()}"/>
+                                <td th:text="${#authentication.getPrincipal().getFirstName()}"/>
+                                <td th:text="${#authentication.getPrincipal().getLastName()}"/>
+                                <td th:text="${#authentication.getPrincipal().getAge()}"/>
+                                <td th:text="${#authentication.getPrincipal().getUsername()}"/>
+                                <td th:each="role : ${#authentication.getPrincipal().getRoles()}" th:text="${role}" style="padding-right: 0px; padding-left: 0px; margin: -100px"/>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

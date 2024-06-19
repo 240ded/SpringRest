@@ -36,19 +36,20 @@ public class AdminController {
     public String addNewUser(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "user-info";
+        return "admin_view_adduser";
     }
 
     @RequestMapping(value = "/admin/saveUser")
     public String saveUser(@ModelAttribute("user") @Valid User user,
-                           BindingResult bindingResult, Model model) {
-        if (!userService.saveUser(user)){
+                           BindingResult bindingResult, Model model,
+                           @RequestParam("selectRole") String role) {
+        if (!userService.saveUser(user, role)){
             bindingResult.addError(new FieldError("user", "username", "User with this username already exists"));
             model.addAttribute("errors", bindingResult);
         }
         if (bindingResult.hasErrors())
             return "user-info";
-        userService.saveUser(user);
+        userService.saveUser(user, role);
         return "redirect:/admin";
     }
 
@@ -63,5 +64,11 @@ public class AdminController {
     public String deleteUser(@RequestParam("userId") long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
+    }
+
+    @RequestMapping(value = "/userForAdmin", method = RequestMethod.GET)
+    public String showUserProfile(Model model) {
+        model.addAttribute("users", userService.allUsers());
+        return "user_view_for_admin";
     }
 }

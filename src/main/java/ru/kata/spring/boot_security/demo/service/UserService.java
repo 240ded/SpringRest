@@ -40,14 +40,24 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public boolean saveUser(User user) {
+    public boolean saveUser(User user, String role) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
             return false;
         }
 
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        String forRole = "ROLE_USER";
+
+        if (role.equals("1")) {
+            forRole = "ROLE_USER";
+        }
+
+        else if (role.equals("2")) {
+            forRole = "ROLE_ADMIN";
+        }
+
+        user.setRoles(Collections.singleton(new Role(1L, forRole)));
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = "{bcrypt}" + passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
