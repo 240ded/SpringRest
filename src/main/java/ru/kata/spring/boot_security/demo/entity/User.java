@@ -105,6 +105,10 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public void deleteRole(Role role) {
+        this.roles.remove(role);
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -5,14 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -40,26 +38,25 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public boolean saveUser(User user, String role) {
+    public boolean saveUser(User user, String selectedRoleFromView) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
             return false;
         }
 
-        String forRole = "ROLE_USER";
+        if (selectedRoleFromView.equals("2")) {
+            selectedRoleAdmin(user);
+        } else if (selectedRoleFromView.equals("1")) {
+            long userRoleId = 2;
 
-        if (role.equals("1")) {
-            forRole = "ROLE_USER";
+            Role userRole = new Role();
+            userRole.setId(userRoleId);
+
+            user.setRoles(Collections.singleton(userRole));
         }
 
-        else if (role.equals("2")) {
-            forRole = "ROLE_ADMIN";
-        }
-
-        user.setRoles(Collections.singleton(new Role(1L, forRole)));
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = "{bcrypt}" + passwordEncoder.encode(user.getPassword());
+        String encodedPassword = "{bcrypt}" + WebSecurityConfig.bCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
         return true;
@@ -67,5 +64,39 @@ public class UserService implements UserDetailsService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public void updateNewUser(Long id, String firstName, String lastName, int age, String email, String password, String selectedRoleFromView) {
+        User user = userRepository.getById(id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setUsername(email);
+        user.setPassword(password);
+        if (selectedRoleFromView.equals("2")) {
+            selectedRoleAdmin(user);
+        } else if (selectedRoleFromView.equals("1")) {
+            Set<Role> roles = user.getRoles();
+            while (roles.size() != 1) {
+                roles.remove(roles.iterator().next());
+            }
+        }
+        userRepository.save(user);
+    }
+
+    private void selectedRoleAdmin(User user) {
+        long roleId = 1;
+
+        Role userRole1 = new Role();
+        userRole1.setId(roleId);
+
+        Role userRole2 = new Role();
+        userRole2.setId(2L);
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(userRole1);
+        roles.add(userRole2);
+
+        user.setRoles(roles);
     }
 }

@@ -48,16 +48,9 @@ public class AdminController {
             model.addAttribute("errors", bindingResult);
         }
         if (bindingResult.hasErrors())
-            return "user-info";
+            return "admin_view_adduser";
         userService.saveUser(user, role);
         return "redirect:/admin";
-    }
-
-    @RequestMapping(value = "/admin/updateUser")
-    public String updateUser(@RequestParam("userId") long id, Model model) {
-        User user = userService.findUserById(id);
-        model.addAttribute("user", user);
-        return "user-info";
     }
 
     @RequestMapping(value = "/admin/deleteUser")
@@ -70,5 +63,17 @@ public class AdminController {
     public String showUserProfile(Model model) {
         model.addAttribute("users", userService.allUsers());
         return "user_view_for_admin";
+    }
+
+    @RequestMapping(value = "/admin/updateUser", method = RequestMethod.POST)
+    public String saveUserData(@RequestParam("id") Long id,
+                               @RequestParam("firstName") String firstName,
+                               @RequestParam("lastName") String lastName,
+                               @RequestParam("age") int age,
+                               @RequestParam("username") String username,
+                               @RequestParam("password") String password,
+                               @RequestParam("selectRole") String role) {
+        userService.updateNewUser(id, firstName, lastName, age, username, password, role);
+        return "redirect:/admin";
     }
 }
