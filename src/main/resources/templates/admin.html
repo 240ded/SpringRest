@@ -1,0 +1,210 @@
+<!DOCKTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!--Верхнее меню-->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div>
+            <a class="navbar-brand">
+                <span id="navbar-username">
+                </span>
+                with roles:
+                <span id="navbar-roles">
+                </span>
+            </a>
+        </div>
+        <a th:href="@{/logout}" class="float-right btn text-secondary">Logout</a>
+    </div>
+</nav>
+<!--Конец верхнее меню-->
+
+<div class="container m-0" style="float: left">
+    <div class="row">
+        <div class="d-flex align-items-start">
+
+        <!--Левое меню с кнопками Admin User-->
+        <div class="col-2">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <div class="btn-group-vertical" style="margin-top: 20px; width: 190px; float: left;">
+                        <a id="button_admin_view" class="btn btn-primary active" aria-current="page" style="text-align: left">Admin</a>
+                        <a id="button_user_view" class="btn btn-nonactive" style="text-align: left">User</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--Конец левое меню с кнопками Admin User-->
+
+        <!--Раздел Admin panel-->
+        <div class="col">
+
+            <div id="admin_page_div">
+                <!--Надпись Admin panel-->
+                <div class="row">
+                    <h2 style="margin-top: 10px">Admin panel</h2>
+                </div>
+                <!--Конец надписи Admin panel-->
+    
+                <!--Кнопки User table и New user-->
+                <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="user_table_button" data-bs-toggle="tab"
+                                    data-bs-target="#user_table" type="button" role="tab" aria-controls="user_table"
+                                    aria-selected="true"> User table
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="new_user_button" data-bs-toggle="tab" data-bs-target="#new_user"
+                                    type="button" role="tab" aria-controls="new_user" aria-selected="false">New user
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <!--Конец кнопки User table и New user-->
+    
+    
+                <div id="admin_table_div" class="hidden">
+                    <!--Надпись All users-->
+                    <div class="row">
+                        <div class="card-footer">
+                            <label style="font-size: large">All users</label>
+                        </div>
+                    </div>
+                    <!--Конец надписи All users-->
+    
+                    <!--Таблица всех юзеров для админа-->
+                    <div class="row">
+                        <div class="card">
+                            <div class="table-div">
+                                <table class="table table-striped" style="background-color: #F7F7F7">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <!-- Скрипт 'adminPage' для заполнения таблицы  -->
+                                    <tbody id="admintbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Конец таблицы всех юзеров для админа-->
+                </div>
+            </div>
+
+            <div id="user_page_div" style="display: none">
+                <!--Надпись User information-page-->
+                <div class="row">
+                    <h2 style="margin-top: 10px">User information-page</h2>
+                </div>
+                <!--Конец надписи User information-page-->
+
+                <!--Надпись About user-->
+                <div class="row">
+                    <div class="card-footer">
+                        <label style="font-size: large">About user</label>
+                    </div>
+                </div>
+                <!--Конец надписи About user-->
+
+                <!--Таблица юзера-->
+                <div class="row">
+                    <div class="card">
+                        <div class="table-div">
+                            <table class="table table-striped" style="background-color: #F7F7F7">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody id="usertbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="add_new_user_div" style="display: none">
+                <!--Надпись Add New User-->
+                <div class="row">
+                    <div class="card-footer">
+                        <label style="font-size: large">Add new user</label>
+                    </div>
+                </div>
+                <!--Конец надписи Add New User-->
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label for="firstName" class="form-label d-flex justify-content-center"><b>First Name</b></label>
+                                    <input type="text"  class="form-control" id="firstName" name="firstName" placeholder="First name">
+                                </div>
+
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label for="lastName" class="form-label d-flex justify-content-center"><b>Last Name</b></label>
+                                    <input type="text"  class="form-control" id="lastName" name="lastName" placeholder="Last name">
+                                </div>
+
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label for="age" class="form-label d-flex justify-content-center"><b>Age</b></label>
+                                    <input type="number"  class="form-control" id="age" name="age" placeholder="Age">
+                                </div>
+
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label for="username" class="form-label d-flex justify-content-center"><b>Email address</b></label>
+                                    <input type="email"  class="form-control" id="username" name="username" placeholder="Email">
+                                </div>
+
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label for="password" class="form-label d-flex justify-content-center"><b>Password</b></label>
+                                    <input type="password"  class="form-control" id="password" name="password" placeholder="Password">
+                                </div>
+
+                                <div class="mb-3" style="max-width: fit-content; margin-left: auto; margin-right: auto">
+                                    <label class="form-label d-flex justify-content-center"><b>Role</b></label>
+                                    <select id="roles" multiple class="form-select" size="3" aria-label="size 2 select example" style="width: 201px">
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-success" id="closeCreateButton">Add new user</button>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/adminPage.js"></script>
+<script src="/js/createUserPage.js"></script>
+
+</body>
+</html>
