@@ -53,4 +53,17 @@ public class RestController {
         userService.add(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<Void> userSaveEdit(@RequestBody User user, @PathVariable Long id ) {
+        user.setId(id);
+        userService.update(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -11,6 +11,7 @@ userTableButton.addEventListener('click', function() {
     newUserButton.className = 'nav-link';
     adminTableDiv.style.display = 'block';
     userTableDiv.style.display = 'none';
+    updateUsersTable(urlForRefresh);
 });
 
 newUserButton.addEventListener('click', function() {
@@ -65,7 +66,7 @@ async function updateUsersTable(url) {
 
 function saveUser(user) {
     const xhr = new XMLHttpRequest();
-    const url = '/api/users'; // Укажите свой URL для сохранения пользователя
+    const url = '/api/users';
 
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -122,12 +123,14 @@ document.getElementById('closeCreateButton').addEventListener('click', function(
 
     saveUser(newUser);
 
-    updateUsersTable(urlForRefresh);
-
-    userTableButton.className = 'nav-link active'
-    newUserButton.className = 'nav-link';
-    adminTableDiv.style.display = 'block';
-    userTableDiv.style.display = 'none';
+    getAdminPage();
+    userTableButton.click();
+    // updateUsersTable(urlForRefresh);
+    //
+    // userTableButton.className = 'nav-link active'
+    // newUserButton.className = 'nav-link';
+    // adminTableDiv.style.display = 'block';
+    // userTableDiv.style.display = 'none';
 });
 
 getRoles();
